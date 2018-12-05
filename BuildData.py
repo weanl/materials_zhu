@@ -165,6 +165,39 @@ def show_Xti():
 
 
 '''
+#   generate request_v1
+'''
+def genReqst_v1():
+
+    print('### generate request_v1')
+
+    ReqsOrigin = np.load('dataset1_v3.npy')
+    ReqsOrigin = ReqsOrigin.reshape(-1)
+    reqsNum = ReqsOrigin.shape[0]
+
+    Xti = np.load('dataComputed/Xti.npz')['Xti']
+
+    TopM = 5
+    ReqsCons = np.ones((reqsNum, 1+TopM), dtype=np.int16)*(-1)
+
+    #
+    ReqsCons[:, 0] = ReqsOrigin
+
+    Start = 1199
+    for t in range(Start, reqsNum):
+
+        fakeTopM = np.argsort(Xti[t, :])[-TopM:]
+        ReqsCons[t, -TopM:] = fakeTopM
+
+    SaveName = 'dataComputed/' + 'dataset1_appended_v1'
+    np.savez_compressed(SaveName, requests_v1=ReqsCons)
+
+    print('generate request_v1 and save successfully!!')
+
+    return ReqsCons
+
+
+'''
 #   construct x Sequence
 #   Parameters:
 #       x:              an array, shape=(T, 1), t=0,1,...,T-1
@@ -288,6 +321,7 @@ if __name__ == '__main__':
     #testData()
     #np.random.zipf()
     #cmpt_Xti()
-    show_Xti()
+    #show_Xti()
+    genReqst_v1()
 
 # END OF FILE

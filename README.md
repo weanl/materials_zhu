@@ -48,6 +48,7 @@ res = np.load('dataComputed/dataset1_appended_v1.npz')
 requests = res['requests']
 # requests.shape = (80000, 6)
 ```
+![avatar](figurePloted/requests_v1.png)
 
 
 **dataset1_appended_v2** 思考中，实际上 $M \neq 1$，那么如何 **有效利用多步预测的结果**, 另外每个`the actual object request`都跟一个序列`the fake ones (Top5)`是否过于频繁，毕竟dataset1的cache=5。
